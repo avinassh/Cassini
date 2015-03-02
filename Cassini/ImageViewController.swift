@@ -16,6 +16,11 @@ class ImageViewController: UIViewController {
         set {
             imageView.image = newValue
             imageView.sizeToFit()
+            // we have to set the scroll view content size everytime a new 
+            // image is set
+            // making scrollview optional unwrapping, in case we try to set 
+            // before actually outlets are set
+            scrollView?.contentSize = imageView.frame.size
         }
     }
     
@@ -31,7 +36,13 @@ class ImageViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var scrollView: UIScrollView! {
+        didSet {
+            // its very very important to set content size of scroll view
+            // so we set the scrollview's content size to exact size of our image
+            scrollView.contentSize = imageView.frame.size
+        }
+    }
     
     private func fetchImage() {
         if let url = imageURL {
@@ -48,8 +59,10 @@ class ImageViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        view.addSubview(imageView)
-        
+        // lets add the image as a subview to scroll view
+        // view.addSubview(imageView)
+        scrollView.addSubview(imageView)
+
         // following is not needed now since we are passing image url in segue
         //
         // since viewDidLoad is run after segue prep, following overwrites the
