@@ -48,10 +48,15 @@ class ImageViewController: UIViewController {
         // Do any additional setup after loading the view.
         view.addSubview(imageView)
         
+        // following is not needed now since we are passing image url in segue
+        //
+        // since viewDidLoad is run after segue prep, following overwrites the
+        // image url
+        //
         // load some image
-        if image == nil {
-            imageURL = DemoURL.Stanford
-        }
+        // if image == nil {
+        //    imageURL = DemoURL.Stanford
+        // }
     }
     
     override func viewWillAppear(animated: Bool) {
