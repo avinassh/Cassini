@@ -21,6 +21,9 @@ class ImageViewController: UIViewController, UIScrollViewDelegate {
             // making scrollview optional unwrapping, in case we try to set 
             // before actually outlets are set
             scrollView?.contentSize = imageView.frame.size
+            
+            // stop the spinner, since now image is set and view will be shown
+            spinner?.stopAnimating()
         }
     }
     
@@ -53,6 +56,10 @@ class ImageViewController: UIViewController, UIScrollViewDelegate {
     
     private func fetchImage() {
         if let url = imageURL {
+            
+            // start spinning!
+            spinner?.startAnimating()
+            
             // code for multithreaded url image fetching
             //
             // set the quality of service. will go with user_initiated, since
