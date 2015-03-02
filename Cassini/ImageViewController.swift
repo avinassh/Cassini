@@ -60,17 +60,32 @@ class ImageViewController: UIViewController, UIScrollViewDelegate {
             let qos = Int(QOS_CLASS_USER_INITIATED.value)
             // get the queue and send the function/closure
             dispatch_async(dispatch_get_global_queue(qos, 0)) { () -> Void in
-    
+                // following is a thread blocking operation
+                // thats why were dispatching to another thread
                 let imageData = NSData(contentsOfURL: url)
                 
                 // following is UI work, so lets dispatch it to main queue back
                 
                 dispatch_async(dispatch_get_main_queue()) { () -> Void in
                 
-                    if imageData != nil {
-                        self.image = UIImage(data: imageData!)
-                    } else {
-                        self.image = nil
+                // following chekcs if the requested url is same as the image we 
+                // fetched. Ugh...why it is required? Not required in this project
+                // since we are segueing and the requested image will same as 
+                // feteched image (since new MVC is created everytime). However 
+                // in some cases when image is still being fetched but if user 
+                // requests new another image (on same MVC), then without checking
+                // the url, the fetched data may be of image of earlier request
+                // so it may show different image!
+                //
+                // in our case, everytime we go back and forth, the MVC will
+                // be thrown out, new one will be created and image will be
+                // requested again!
+                    if url == self.imageURL {
+                        if imageData != nil {
+                            self.image = UIImage(data: imageData!)
+                        } else {
+                            self.image = nil
+                        }
                     }
                 }
             }
