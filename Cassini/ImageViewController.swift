@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ImageViewController: UIViewController {
+class ImageViewController: UIViewController, UIScrollViewDelegate {
 
     private var imageView = UIImageView()
     private var image: UIImage? {
@@ -41,6 +41,11 @@ class ImageViewController: UIViewController {
             // its very very important to set content size of scroll view
             // so we set the scrollview's content size to exact size of our image
             scrollView.contentSize = imageView.frame.size
+            
+            // following code adds zooming capability
+            scrollView.delegate = self
+            scrollView.minimumZoomScale = 0.03
+            scrollView.maximumZoomScale = 1.0
         }
     }
     
@@ -84,7 +89,12 @@ class ImageViewController: UIViewController {
             fetchImage()
         }
     }
-
+    
+    // following says which view inside scrollview needs zooming 
+    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+        return imageView
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
