@@ -31,6 +31,8 @@ class ImageViewController: UIViewController {
         }
     }
     
+    @IBOutlet weak var scrollView: UIScrollView!
+    
     private func fetchImage() {
         if let url = imageURL {
             let imageData = NSData(contentsOfURL: url)
