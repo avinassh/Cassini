@@ -23,10 +23,18 @@ class ViewController: UIViewController {
                     case "Saturn":
                         ivc.imageURL = DemoURL.NASA.Saturn
                         ivc.title = "Saturn"
+                    case "Moon":
+                        ivc.imageURL = DemoURL.NASA.Moon
+                        ivc.title = "Moon"
                     default: break
                 }
             }
         }
+    }
+    
+    
+    @IBAction func sendToMoon() {
+        performSegueWithIdentifier("Moon", sender: nil)
     }
     
     override func viewDidLoad() {
@@ -39,6 +47,8 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
 }
 
+extension DemoURL.NASA {
+    static let Moon = NSURL(string: "http://i.imgur.com/7nNGcdE.jpg")
+}
